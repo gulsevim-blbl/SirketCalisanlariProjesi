@@ -4,6 +4,9 @@ import  java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.ResultSet;
 
 public class CalisanIslemleri {
     
@@ -11,6 +14,32 @@ public class CalisanIslemleri {
     
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
+    
+    
+    public boolean girisYap(String kullanici_adi, String parola){
+       
+        
+        String sorgu = "Select * from adminler where username = ? and password = ?";
+        
+        try {
+            preparedStatement = con.prepareStatement(sorgu);
+            
+            preparedStatement.setString(1, kullanici_adi);
+            preparedStatement.setString(2, parola);
+            
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            return rs.next();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(CalisanIslemleri.class.getName()).log(Level.SEVERE, null, ex);
+             return false;
+        }
+        
+        
+        
+        
+    }
     
     public CalisanIslemleri(){
         
@@ -31,10 +60,7 @@ public class CalisanIslemleri {
 
     }
     
-    public static void main(String[] args) {
-            CalisanIslemleri islemler = new CalisanIslemleri();
-            
-    }
+   
     
     
 }
